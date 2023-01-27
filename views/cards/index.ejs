@@ -1,0 +1,126 @@
+<%- layout('layouts/boilerplate') %>
+  <div class="container">
+    <h1 class="main-title">
+      Tarjetas
+    </h1>
+    <a class="btn btn-primary my-2" href="/tarjetas/nueva">Solicita una nueva tarjeta</a>
+    <div class="accordion my-2" id="accordion">
+      <% for (let [index, card] of cards.entries()) { %>
+        <div class="accordion-item card">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+            <div class="card-body d-flex">
+              <div class="col-6">
+                <div class="fw-bold mb-1">
+                  <%= card.name %>
+                </div>
+                <div class="card-title">
+                  <%= card.number.toString().match(/\d{4}/g).join(' ') %></div>
+                <div class="card-subtitle mb-2 text-muted"><%= card.expiry %></div>
+                <div class="card-subtitle mb-2 text-muted"><%= card.bank %></div>
+              </div>
+              <div class="col-6 h5">
+                <div class="mb-3">
+                  <div class="fw-bold">Saldo total:</div>
+                  <div>$<%= parseFloat(card.money).toFixed(2) %>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <div class="fw-bold">Estado:</div>
+                  <div>
+                    <%= card.active ? ' Activada' : 'Desactivada' %>
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="headingOne"
+          data-bs-parent="#accordion">
+          <div class="accordion-body">
+            <div class="btn-group w-100" role="group" aria-label="Basic mixed styles example">
+              <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#modalRecargar<%= index %>">Recargar</button>
+              <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                data-bs-target="#modalEditar<%= index %>">Editar</button>
+              <form class="col-3" action="/tarjetas/<%= card._id %>/toggle-active?_method=PUT" method="POST">
+                <button class="btn btn-outline-secondary w-100">Dar de <%= card.active ? ' baja' : 'alta' %>
+                </button>
+              </form>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#modalEliminar<%= index %>">Eliminar</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalRecargar<%= index %>" tabindex="-1"
+          aria-labelledby="modalRecargarLabel<%= index %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalRecargarLabel<%= index %>">Recargar tarjeta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/tarjetas/<%= card._id %>/recharge?_method=PUT" method="POST">
+                <div class="modal-body">
+                  <label for="cantidad-recarga" class="form-label">Cantidad:</label>
+                  <input id="cantidad-recarga" class="form-control" name="amount" type="number" step="0.01"
+                    placeholder="$0.00" required>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-success">Recargar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalEditar<%= index %>" tabindex="-1"
+          aria-labelledby="modalEditarLabel<%= index %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEditarLabel<%= index %>">Editar detalles de la tarjeta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/tarjetas/<%= card._id %>?_method=PUT" method="POST">
+                <div class="modal-body">
+                  <div class="mb-3 form-child">
+                    <label for="nombre" class="form-label fw-bold">Nombre:</label>
+                    <input id="nombre" name="name" class="form-control" value="<%= card.name %>" required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="pin" class="form-label fw-bold">PIN</label>
+                    <input id="pin" name="pin" class="form-control w-25" type="text" maxlength="3"
+                      value="<%= card.pin %>" required />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalEliminar<%= index %>" tabindex="-1"
+          aria-labelledby="modalEliminarLabel<%= index %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEliminarLabel<%= index %>">Eliminar tarjeta</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/tarjetas/<%= card._id %>?_method=DELETE" method="POST">
+                <div class="modal-body">
+                  Seguro que quiere eliminar la tarjeta?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>

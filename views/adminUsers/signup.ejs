@@ -1,0 +1,55 @@
+<%- layout('layouts/boilerplate') %>
+  <div class="container">
+    <div class="form-container">
+      <a class="return" href="/">&#8592; Atrás</a>
+      <div class="form-container border px-4 pb-4 rounded mt-1">
+        <h1 class="my-3">Crear cuenta de aministración</h1>
+        <form class="form needs-validation" action="/signup" method="POST" novalidate>
+          <div class="mt-4 mb-4 form-child d-flex justify-content-evenly">
+            <div class="border rounded col-5">
+              <input type="radio" class="btn-check" name="adminUser[isBusiness]" id="personal-outlined" value="false"
+                autocomplete="off" checked>
+              <label class="btn btn-outline-secondary w-100" for="personal-outlined">Cuenta personal</label>
+              <div class="m-2">Sólo necesitarás administrar tus tarjetas y vehículos.</div>
+            </div>
+            <div class="border rounded col-5">
+              <input type="radio" class="btn-check" name="adminUser[isBusiness]" id="business-outlined" value="true"
+                autocomplete="off">
+              <label class="btn btn-outline-primary w-100" for="business-outlined">Cuenta empresarial</label>
+              <div class="m-2">Administrarás las tarjetas y vehículos de los empleados de una empresa.</div>
+            </div>
+          </div>
+          <div class="mb-3 form-child">
+            <label for="username" class="form-label label-required fw-bold">Nombre de usuario:</label>
+            <input id="username" name="adminUser[username]" class="form-control" placeholder="Ejemplo: luisochoa85"
+              aria-describedby="usernameHelp" required>
+            <small id="usernameHelp" class="form-text text-muted">El nombre de usuario debe ser único.</small>
+          </div>
+          <div class="mb-3 form-child">
+            <label for="firstName" class="form-label label-required fw-bold">Nombre(s):</label>
+            <input id="firstName" name="adminUser[firstName]" class="form-control"
+              placeholder="Introduzca su(s) nombre(s)..." required>
+          </div>
+          <div class="mb-3 form-child">
+            <label for="lastName" class="form-label label-required fw-bold">Apellido(s):</label>
+            <input id="lastName" name="adminUser[lastName]" class="form-control"
+              placeholder="Introduzca su(s) apellido(s)..." required>
+          </div>
+          <div class="mb-3 form-child">
+            <label for="email" class="form-label label-required fw-bold">Correo electrónico:</label>
+            <input type="email" id="email" name="adminUser[email]" class="form-control"
+              placeholder="Ejemplo: ramon.bonachea@email.com" aria-describedby="passwordHelp" required>
+            <small id="emailHelp" class="form-text text-muted">El correo electrónico debe ser único.</small>
+          </div>
+          <div class="form-child">
+            <label for="password" class="form-label label-required fw-bold">Contraseña:</label>
+            <input type="password" name="adminUser[password]" id="password" class="form-control"
+              placeholder="Introduzca su contraseña..." autocomplete="off" minlength="5" maxlength="50" required
+              aria-describedby="passwordHelp">
+            <small id="passwordHelp" class="form-text text-muted">Debe tener mínimo 5 carácteres.</small>
+          </div>
+          <button class="btn btn-primary mt-3">Regístrate</button>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,124 @@
+<%- layout('layouts/boilerplate') %>
+  <div class="container">
+    <h1 class="main-title">
+      Usuarios
+    </h1>
+    <a class="btn btn-primary my-2" href="/usuarios/nuevo">Agrega un nuevo usuario</a>
+    <div class="accordion my-2" id="accordion">
+      <% for (let [index, user] of users.entries()) { %>
+        <div class="accordion-item card">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapse<%= index %>" aria-expanded="true" aria-controls="collapse<%= index %>">
+            <div class="card-body">
+              <div class="fw-bold mb-1">
+                <%= `${user.firstName} ${user.lastName}` %>
+              </div>
+              <div class="card-title">
+                <%= user.email %>
+              </div>
+              <div class="card-subtitle mb-2 text-muted">
+                Teléfono: <%= user.phoneNumber %>
+              </div>
+            </div>
+          </button>
+        </div>
+        <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>"
+          data-bs-parent="#accordion">
+          <div class="accordion-body">
+            <div class="mb-3 mt-2">
+              <div class="h5">Detalles adicionales:</div>
+              <ul class="list-group">
+                <li class="list-group-item"><span class="fw-bold">CURP:</span>
+                  <%= user.curp %>
+                </li>
+                <li class="list-group-item"><span class="fw-bold">Fecha de nacimiento:</span>
+                  <%= user.birthDate.toISOString().split('T')[0] %>
+                </li>
+                <li class="list-group-item"><span class="fw-bold">Domicilio:</span>
+                  <%= user.address %>
+                </li>
+              </ul>
+            </div>
+            <div class="btn-group w-100" role="group" aria-label="Acciones de un usuario">
+              <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal"
+                data-bs-target="#modalEditar<%= index %>">Editar</button>
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#modalEliminar<%= index %>">Eliminar</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalEditar<%= index %>" tabindex="-1"
+          aria-labelledby="modalEditarLabel<%= index %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEditarLabel<%= index %>">Editar detalles del usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/usuarios/<%= user._id %>?_method=PUT" method="POST">
+                <div class="modal-body">
+                  <div class="mb-3 form-child">
+                    <label for="firstName" class="form-label label-required fw-bold">Nombre(s):</label>
+                    <input id="firstName" name="user[firstName]" class="form-control" value="<%= user.firstName %>"
+                      required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="lastName" class="form-label label-required fw-bold">Apellido(s):</label>
+                    <input id="lastName" name="user[lastName]" class="form-control" value="<%= user.lastName %>"
+                      required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="phoneNumber" class="form-label label-required fw-bold">Número de teléfono:</label>
+                    <input id="phoneNumber" name="user[phoneNumber]" class="form-control" maxlength="10"
+                      value="<%= user.phoneNumber %>" required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="email" class="form-label label-required fw-bold">Correo electrónico:</label>
+                    <input type="email" id="email" name="user[email]" class="form-control" value="<%= user.email %>"
+                      required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="curp" class="form-label label-required fw-bold">CURP:</label>
+                    <input id="curp" name="user[curp]" class="form-control" value="<%= user.curp %>" required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="birthDate" class="form-label label-required fw-bold">Fecha de nacimiento:</label>
+                    <input id="birthDate" name="user[birthDate]" class="form-control" type="date" min="1960-01-01"
+                      max="2022-12-06" value="<%= user.birthDate.toISOString().split('T')[0] %>" required>
+                  </div>
+                  <div class="mb-3 form-child">
+                    <label for="address" class="form-label label-required fw-bold">Domicilio:</label>
+                    <input id="address" name="user[address]" class="form-control" value="<%= user.address %>" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary">Editar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="modalEliminar<%= index %>" tabindex="-1"
+          aria-labelledby="modalEliminarLabel<%= index %>" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEliminarLabel<%= index %>">Eliminar usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/usuarios/<%= user._id %>?_method=DELETE" method="POST">
+                <div class="modal-body">
+                  Seguro que quiere eliminar el usuario?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% } %>
+    </div>
+  </div>

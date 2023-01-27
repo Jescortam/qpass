@@ -1,0 +1,35 @@
+.accordion-button:not(.collapsed) {
+    color: #000;
+    background-color: #FFF;
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.label-required:after {
+  content:" *";
+  color:red;
+}
+
+input[type="radio"]:checked+label { 
+  font-weight: bold; 
+  border: 8px solid #000;
+}  
+
+.bg-image {
+  background-image: url('../imgs/carretera.jpg');
+  height: 100vh;
+  background-size: cover;
+}
+
+.nav-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+}
+
+.very-rounded {
+  border-radius: 20px;
+}

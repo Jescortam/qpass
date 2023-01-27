@@ -1,0 +1,65 @@
+<%- layout('layouts/boilerplate') %>
+  <div class="container">
+    <a class="return" href="/tarjetas">&#8592; Atrás</a>
+    <div class="form-container border px-4 pb-4 rounded mt-1">
+      <h1 class="my-3">Solicita una tarjeta QPass</h1>
+      <form class="form needs-validation" action="/tarjetas" method="POST">
+        <div class="mb-3 form-child">
+          <label for="banco" class="form-label fw-bold">Banco</label>
+          <input id="banco" name="card[bank]" class="form-control-plaintext no-border" readonly
+            value="<%= card.bank %>">
+        </div>
+        <div class="mb-3 form-child">
+          <label for="nombre" class="form-label label-required fw-bold">Nombre</label>
+          <input id="nombre" name="card[name]" class="form-control" placeholder="Introduzca su nombre...">
+        </div>
+        <div class="mb-3 form-child">
+          <label for="numero" class="form-label fw-bold">Numero de tarjeta</label>
+          <input id="numero" name="card[number]" class="form-control-plaintext no-border" readonly
+            value="<%= card.number %>">
+        </div>
+        <div class="mb-3 form-child">
+          <label for="fecha" class="form-label fw-bold">Fecha de expiración</label>
+          <input id="fecha" name="card[expiry]" class="form-control-plaintext no-border" readonly
+            value="<%= card.expiry %>">
+        </div>
+        <div class="mb-3 form-child">
+          <label for="cvv" class="form-label fw-bold">CVV/CVC</label>
+          <input id="cvv" name="card[cvv]" class="form-control-plaintext no-border" readonly value="<%= card.cvv %>">
+        </div>
+        <div class="mb-3 form-child">
+          <label for="pin" class="form-label label-required fw-bold">PIN</label>
+          <input id="pin" name="card[pin]" class="form-control w-25" type="text" minlength="3" maxlength="3"
+            placeholder="Ejemplo: 123" required />
+        </div>
+        <% if (currentUser.isBusiness) { %>
+          <div class="mb-3 form-child">
+            <label for="pin" class="form-label fw-bold">Propietario</label>
+            <select id="pin" name="card[user]" class="form-select" aria-label="Selección de usuario">
+              <% if (!availableUsers.length) { %>
+                <option value="" selected>No hay usuarios disponibles</option>
+                <% } else for (let availableUser of availableUsers) { %>
+                  <option value="<%= availableUser._id %>">
+                    <%= `${availableUser.firstName} ${availableUser.lastName} ${ availableUser.curp ? '-' +
+                      availableUser.curp : '' }` %>
+                  </option>
+                  <% } %>
+            </select>
+          </div>
+          <% } %>
+            <div class="mb-3 form-child">
+              <label for="pin" class="form-label fw-bold">Vehículo</label>
+              <select id="pin" name="card[vehicle]" class="form-select" aria-label="Selección de vehículo">
+                <% if (!availableVehicles.length) { %>
+                  <option value="" selected>No hay vehículos disponibles</option>
+                  <% } else for (let availableVehicle of availableVehicles) { %>
+                    <option value="<%= availableVehicle._id %>">
+                      <%= `${availableVehicle.model} ${availableVehicle.year} - ${availableVehicle.licensePlate}` %>
+                    </option>
+                    <% } %>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Solicitar</button>
+      </form>
+    </div>
+  </div>

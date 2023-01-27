@@ -1,0 +1,40 @@
+<%- layout('layouts/boilerplate') %>
+  <div class="container">
+    <a class="return" href="/vehiculos">&#8592; Atrás</a>
+    <div class="form-container border px-4 pb-4 rounded mt-1">
+      <h1 class="my-3">Agrega un nuevo vehículo</h1>
+      <form class="form needs-validation" action="/vehiculos" method="POST">
+        <div class="mb-3 form-child">
+          <label for="licensePlate" class="form-label label-required fw-bold">Matrícula del vehículo:</label>
+          <input id="licensePlate" name="vehicle[licensePlate]" class="form-control" placeholder="Ejemplo: SLS9854"
+            maxlength="7" minlength="7" aria-describedby="licensePlateHelp" required>
+          <small id="licensePlateHelp" class="form-text text-muted">La matrícula debe ser única.</small>
+        </div>
+        <div class="mb-3 form-child">
+          <label for="model" class="form-label label-required fw-bold">Modelo:</label>
+          <input id="model" name="vehicle[model]" class="form-control" placeholder="Ejemplo: F-350" required>
+        </div>
+        <div class="mb-3 form-child">
+          <label for="make" class="form-label label-required fw-bold">Marca:</label>
+          <input id="make" name="vehicle[make]" class="form-control" placeholder="Ejemplo: Ford" required>
+        </div>
+        <div class="mb-3 form-child">
+          <label for="year" class="form-label label-required fw-bold">Año de manufactura:</label>
+          <input id="year" name="vehicle[year]" class="form-control" placeholder="Ejemplo: 2015" required>
+        </div>
+        <div class="mb-3 form-child">
+          <label for="pin" class="form-label fw-bold">Tarjeta:</label>
+          <select id="pin" name="vehicle[card]" class="form-select" aria-label="Selección de tarjeta">
+            <% if (!availableCards.length) { %>
+              <option value="" selected>No hay tarjetas disponibles</option>
+              <% } else for (let availableCard of availableCards) { %>
+                <option value="<%= availableCard._id %>">
+                  <%= `${availableCard.name} - ${availableCard.number}` %>
+                </option>
+                <% } %>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </form>
+    </div>
+  </div>

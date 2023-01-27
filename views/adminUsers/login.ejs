@@ -1,0 +1,20 @@
+<%- layout('layouts/boilerplate') %>
+  <div class="container">
+    <div class="form-container">
+      <a class="return" href="/">&#8592; Atrás</a>
+      <div class="form-container border px-4 pb-4 rounded mt-1">
+        <h1 class="my-3">Inicio de sesión</h1>
+        <form class="form needs-validation" action="/login" method="POST" novalidate>
+          <div class="mb-3 form-child">
+            <label for="username" class="form-label label-required fw-bold">Nombre de usuario:</label>
+            <input id="username" name="username" class="form-control" placeholder="Ejemplo: luisochoa85" required>
+          </div>
+          <div class="form-child">
+            <label for="password" class="form-label label-required fw-bold">Contraseña:</label>
+            <input type="password" name="password" id="password" class="form-control"
+              placeholder="Introduzca su contraseña..." autocomplete="off" minlength="5" maxlength="50" required>
+            <button class="btn btn-primary mt-3">Ingresa</button>
+        </form>
+      </div>
+    </div>
+  </div>
